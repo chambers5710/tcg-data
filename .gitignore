@@ -5,3 +5,4 @@ cards/en/v1/
 .env
 .env.*
 !.env.example
+sync-images-report.txt

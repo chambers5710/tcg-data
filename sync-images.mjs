@@ -7,6 +7,7 @@
  *   node sync-images.mjs
  *
  * Resume-safe: HEAD skips objects already in the bucket. Do not run this from the Worker.
+ * Progress: data/sync-images-report.txt is overwritten as it goes (bounded, gitignored).
  */
 
 import crypto from "node:crypto";
@@ -16,6 +17,9 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const CARDS = path.join(ROOT, "cards", "en");
+const REPORT = path.join(ROOT, "sync-images-report.txt");
+const RECENT = 12;
+const FAIL_KEEP = 40;
 const REGION = "auto";
 const SERVICE = "s3";
 const UA = "tcg-data-image-mirror/1";
@@ -44,51 +48,151 @@ for (const file of fs.readdirSync(CARDS).filter((name) => name.endsWith(".json")
 }
 
 console.log(`${jobs.length} objects from ${CARDS} → r2://${bucket} (concurrency ${concurrency})`);
+console.log(`report ${REPORT}`);
 
+const started = Date.now();
 let done = 0;
 let skipped = 0;
 let uploaded = 0;
 let failed = 0;
-const errors = [];
+let lastFlush = 0;
+let closed = false;
+const recent = [];
+const failures = [];
+let crash = "";
 
-await pool(jobs, concurrency, async (job) => {
-	const key = `${job.id}/${job.kind}.png`;
-	try {
-		const existing = await r2("HEAD", key);
-		if (existing.status === 200) {
-			skipped += 1;
-			tick("skip", key);
-			return;
-		}
-		if (existing.status !== 404) {
-			throw new Error(`HEAD ${key} → ${existing.status}`);
-		}
-		const body = await download(job.url);
-		const put = await r2("PUT", key, body, "image/png");
-		if (put.status !== 200 && put.status !== 204) {
-			throw new Error(`PUT ${key} → ${put.status} ${put.text}`);
-		}
-		uploaded += 1;
-		tick("put", key);
-	} catch (err) {
-		failed += 1;
-		errors.push(`${key}: ${err.message}`);
-		tick("fail", key);
-	}
+writeReport("running");
+
+process.on("SIGINT", () => stop("interrupted", 130));
+process.on("SIGTERM", () => stop("interrupted", 143));
+process.on("uncaughtException", (err) => {
+	crash = stack(err);
+	stop("crashed", 1);
+});
+process.on("unhandledRejection", (err) => {
+	crash = stack(err);
+	stop("crashed", 1);
 });
 
+try {
+	await pool(jobs, concurrency, async (job) => {
+		const key = `${job.id}/${job.kind}.png`;
+		try {
+			const existing = await r2("HEAD", key);
+			if (existing.status === 200) {
+				skipped += 1;
+				tick("skip", key);
+				return;
+			}
+			if (existing.status !== 404) {
+				throw new Error(`HEAD ${key} → ${existing.status}`);
+			}
+			const body = await download(job.url);
+			const put = await r2("PUT", key, body, "image/png");
+			if (put.status !== 200 && put.status !== 204) {
+				throw new Error(`PUT ${key} → ${put.status} ${put.text.slice(0, 200)}`);
+			}
+			uploaded += 1;
+			tick("put", key);
+		} catch (err) {
+			failed += 1;
+			noteFail(key, err);
+			tick("fail", key);
+		}
+	});
+} catch (err) {
+	crash = stack(err);
+	writeReport("crashed");
+	process.exit(1);
+}
+
+writeReport(failed ? "finished with errors" : "finished");
 console.log(`done=${done} uploaded=${uploaded} skipped=${skipped} failed=${failed}`);
-if (errors.length) {
-	for (const line of errors.slice(0, 20)) console.error(line);
-	if (errors.length > 20) console.error(`… ${errors.length - 20} more`);
+console.log(`report ${REPORT}`);
+if (failed) {
+	for (const line of failures.slice(-20)) console.error(line);
 	process.exit(1);
 }
 
 function tick(kind, key) {
 	done += 1;
+	recent.push(`${kind} ${key}`);
+	if (recent.length > RECENT) recent.shift();
+	const now = Date.now();
+	const pulse = kind === "fail" || done % 25 === 0 || now - lastFlush > 5000;
+	if (pulse) writeReport("running");
 	if (done % 50 === 0 || kind === "fail") {
 		console.log(`${done}/${jobs.length} ${kind} ${key} (up ${uploaded} skip ${skipped} fail ${failed})`);
 	}
+}
+
+function noteFail(key, err) {
+	failures.push(`${iso(new Date())} ${key}  ${err.message || err}`);
+	if (failures.length > FAIL_KEEP) failures.shift();
+}
+
+function writeReport(state) {
+	lastFlush = Date.now();
+	const elapsed = Math.max(1, (Date.now() - started) / 1000);
+	const rate = done / elapsed;
+	const left = Math.max(0, jobs.length - done);
+	const eta = rate > 0 ? formatSecs(left / rate) : "—";
+	const lines = [
+		`sync-images  ${state}`,
+		`updated      ${iso(new Date())}`,
+		`started      ${iso(new Date(started))}`,
+		`elapsed      ${formatSecs(elapsed)}`,
+		`bucket       ${bucket}`,
+		`concurrency  ${concurrency}`,
+		`progress     ${done} / ${jobs.length}  (${pct(done, jobs.length)})`,
+		`uploaded     ${uploaded}`,
+		`skipped      ${skipped}`,
+		`failed       ${failed}`,
+		`rate         ${rate.toFixed(1)} /s`,
+		`eta          ${eta}`,
+		"",
+		"recent",
+		...(recent.length ? recent.map((row) => `  ${row}`) : ["  (none yet)"]),
+		"",
+		`failures (last ${FAIL_KEEP}; oldest dropped)`,
+		...(failures.length ? failures.map((row) => `  ${row}`) : ["  (none)"]),
+	];
+	if (crash) {
+		lines.push("", "crash", ...crash.split("\n").slice(0, 16).map((row) => `  ${row}`));
+	}
+	lines.push("");
+	fs.writeFileSync(REPORT, lines.join("\n"));
+}
+
+function stop(state, code) {
+	if (closed) return;
+	closed = true;
+	writeReport(state);
+	console.error(`${state}; see ${REPORT}`);
+	process.exit(code);
+}
+
+function stack(err) {
+	return (err && err.stack) || String(err);
+}
+
+function iso(date) {
+	return date.toISOString();
+}
+
+function pct(part, whole) {
+	if (!whole) return "0%";
+	return `${((100 * part) / whole).toFixed(1)}%`;
+}
+
+function formatSecs(secs) {
+	const n = Math.round(Number(secs) || 0);
+	const h = Math.floor(n / 3600);
+	const m = Math.floor((n % 3600) / 60);
+	const s = n % 60;
+	if (h) return `${h}h ${m}m ${s}s`;
+	if (m) return `${m}m ${s}s`;
+	return `${s}s`;
 }
 
 async function download(url) {
