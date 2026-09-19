@@ -1,68 +1,68 @@
-sync-images  interrupted
-updated      2026-09-19T17:19:42.946Z
-started      2026-09-19T16:38:28.064Z
-elapsed      41m 15s
+sync-images  finished with errors
+updated      2026-09-19T18:58:53.797Z
+started      2026-09-19T17:32:36.776Z
+elapsed      1h 26m 17s
 bucket       tcg-card-images
 concurrency  4
-progress     12646 / 40888  (30.9%)
-uploaded     12546
-skipped      0
-failed       100
-rate         5.1 /s
-eta          1h 32m 7s
+progress     40888 / 40888  (100.0%)
+uploaded     28237
+skipped      12546
+failed       105
+rate         7.9 /s
+eta          0s
 
 recent
-  fail mcd18-12/large.png
-  fail mcd18-10/large.png
-  put mcd19-1/small.png
-  put mcd19-2/small.png
-  put mcd19-3/small.png
-  put mcd19-1/large.png
-  put mcd19-4/small.png
-  put mcd19-2/large.png
-  put mcd19-5/small.png
-  put mcd19-3/large.png
-  put mcd19-4/large.png
-  put mcd19-6/small.png
+  put zsv10pt5-167/small.png
+  put zsv10pt5-168/small.png
+  put zsv10pt5-168/large.png
+  put zsv10pt5-169/small.png
+  put zsv10pt5-169/large.png
+  put zsv10pt5-167/large.png
+  put zsv10pt5-170/small.png
+  put zsv10pt5-171/small.png
+  put zsv10pt5-172/small.png
+  put zsv10pt5-170/large.png
+  put zsv10pt5-171/large.png
+  put zsv10pt5-172/large.png
 
 failures (last 40; oldest dropped)
-  2026-09-19T17:19:37.130Z mcd17-5/small.png  GET https://images.pokemontcg.io/mcd17/5.png → 404
-  2026-09-19T17:19:37.323Z mcd17-5/large.png  GET https://images.pokemontcg.io/mcd17/5_hires.png → 404
-  2026-09-19T17:19:37.337Z mcd17-6/small.png  GET https://images.pokemontcg.io/mcd17/6.png → 404
-  2026-09-19T17:19:37.362Z mcd17-6/large.png  GET https://images.pokemontcg.io/mcd17/6_hires.png → 404
-  2026-09-19T17:19:37.556Z mcd17-7/small.png  GET https://images.pokemontcg.io/mcd17/7.png → 404
-  2026-09-19T17:19:37.584Z mcd17-8/large.png  GET https://images.pokemontcg.io/mcd17/8_hires.png → 404
-  2026-09-19T17:19:37.590Z mcd17-8/small.png  GET https://images.pokemontcg.io/mcd17/8.png → 404
-  2026-09-19T17:19:37.634Z mcd17-7/large.png  GET https://images.pokemontcg.io/mcd17/7_hires.png → 404
-  2026-09-19T17:19:37.796Z mcd17-9/small.png  GET https://images.pokemontcg.io/mcd17/9.png → 404
-  2026-09-19T17:19:37.802Z mcd17-10/small.png  GET https://images.pokemontcg.io/mcd17/10.png → 404
-  2026-09-19T17:19:37.826Z mcd17-9/large.png  GET https://images.pokemontcg.io/mcd17/9_hires.png → 404
-  2026-09-19T17:19:37.867Z mcd17-10/large.png  GET https://images.pokemontcg.io/mcd17/10_hires.png → 404
-  2026-09-19T17:19:38.010Z mcd17-11/small.png  GET https://images.pokemontcg.io/mcd17/11.png → 404
-  2026-09-19T17:19:38.022Z mcd17-11/large.png  GET https://images.pokemontcg.io/mcd17/11_hires.png → 404
-  2026-09-19T17:19:38.030Z mcd17-12/small.png  GET https://images.pokemontcg.io/mcd17/12.png → 404
-  2026-09-19T17:19:38.086Z mcd17-12/large.png  GET https://images.pokemontcg.io/mcd17/12_hires.png → 404
-  2026-09-19T17:19:38.230Z mcd18-1/small.png  GET https://images.pokemontcg.io/mcd18/1.png → 404
-  2026-09-19T17:19:38.244Z mcd18-2/small.png  GET https://images.pokemontcg.io/mcd18/2.png → 404
-  2026-09-19T17:19:38.254Z mcd18-1/large.png  GET https://images.pokemontcg.io/mcd18/1_hires.png → 404
-  2026-09-19T17:19:38.302Z mcd18-2/large.png  GET https://images.pokemontcg.io/mcd18/2_hires.png → 404
-  2026-09-19T17:19:38.430Z mcd18-3/small.png  GET https://images.pokemontcg.io/mcd18/3.png → 404
-  2026-09-19T17:19:38.485Z mcd18-4/small.png  GET https://images.pokemontcg.io/mcd18/4.png → 404
-  2026-09-19T17:19:38.487Z mcd18-3/large.png  GET https://images.pokemontcg.io/mcd18/3_hires.png → 404
-  2026-09-19T17:19:38.549Z mcd18-4/large.png  GET https://images.pokemontcg.io/mcd18/4_hires.png → 404
-  2026-09-19T17:19:38.671Z mcd18-5/small.png  GET https://images.pokemontcg.io/mcd18/5.png → 404
-  2026-09-19T17:19:38.701Z mcd18-5/large.png  GET https://images.pokemontcg.io/mcd18/5_hires.png → 404
-  2026-09-19T17:19:38.716Z mcd18-6/small.png  GET https://images.pokemontcg.io/mcd18/6.png → 404
-  2026-09-19T17:19:38.811Z mcd18-6/large.png  GET https://images.pokemontcg.io/mcd18/6_hires.png → 404
-  2026-09-19T17:19:38.877Z mcd18-7/small.png  GET https://images.pokemontcg.io/mcd18/7.png → 404
-  2026-09-19T17:19:38.927Z mcd18-7/large.png  GET https://images.pokemontcg.io/mcd18/7_hires.png → 404
-  2026-09-19T17:19:38.931Z mcd18-8/small.png  GET https://images.pokemontcg.io/mcd18/8.png → 404
-  2026-09-19T17:19:39.074Z mcd18-8/large.png  GET https://images.pokemontcg.io/mcd18/8_hires.png → 404
-  2026-09-19T17:19:39.135Z mcd18-9/large.png  GET https://images.pokemontcg.io/mcd18/9_hires.png → 404
-  2026-09-19T17:19:39.143Z mcd18-10/small.png  GET https://images.pokemontcg.io/mcd18/10.png → 404
-  2026-09-19T17:19:39.145Z mcd18-9/small.png  GET https://images.pokemontcg.io/mcd18/9.png → 404
-  2026-09-19T17:19:39.350Z mcd18-11/small.png  GET https://images.pokemontcg.io/mcd18/11.png → 404
-  2026-09-19T17:19:39.372Z mcd18-12/small.png  GET https://images.pokemontcg.io/mcd18/12.png → 404
-  2026-09-19T17:19:39.404Z mcd18-11/large.png  GET https://images.pokemontcg.io/mcd18/11_hires.png → 404
-  2026-09-19T17:19:39.561Z mcd18-12/large.png  GET https://images.pokemontcg.io/mcd18/12_hires.png → 404
-  2026-09-19T17:19:39.666Z mcd18-10/large.png  GET https://images.pokemontcg.io/mcd18/10_hires.png → 404
+  2026-09-19T17:39:48.010Z mcd17-8/small.png  GET https://images.pokemontcg.io/mcd17/8.png → 404
+  2026-09-19T17:39:48.013Z mcd17-7/large.png  GET https://images.pokemontcg.io/mcd17/7_hires.png → 404
+  2026-09-19T17:39:48.108Z mcd17-8/large.png  GET https://images.pokemontcg.io/mcd17/8_hires.png → 404
+  2026-09-19T17:39:48.223Z mcd17-10/small.png  GET https://images.pokemontcg.io/mcd17/10.png → 404
+  2026-09-19T17:39:48.250Z mcd17-9/large.png  GET https://images.pokemontcg.io/mcd17/9_hires.png → 404
+  2026-09-19T17:39:48.266Z mcd17-9/small.png  GET https://images.pokemontcg.io/mcd17/9.png → 404
+  2026-09-19T17:39:48.333Z mcd17-10/large.png  GET https://images.pokemontcg.io/mcd17/10_hires.png → 404
+  2026-09-19T17:39:48.477Z mcd17-11/small.png  GET https://images.pokemontcg.io/mcd17/11.png → 404
+  2026-09-19T17:39:48.508Z mcd17-11/large.png  GET https://images.pokemontcg.io/mcd17/11_hires.png → 404
+  2026-09-19T17:39:48.526Z mcd17-12/small.png  GET https://images.pokemontcg.io/mcd17/12.png → 404
+  2026-09-19T17:39:48.564Z mcd17-12/large.png  GET https://images.pokemontcg.io/mcd17/12_hires.png → 404
+  2026-09-19T17:39:48.712Z mcd18-1/small.png  GET https://images.pokemontcg.io/mcd18/1.png → 404
+  2026-09-19T17:39:48.728Z mcd18-1/large.png  GET https://images.pokemontcg.io/mcd18/1_hires.png → 404
+  2026-09-19T17:39:48.762Z mcd18-2/small.png  GET https://images.pokemontcg.io/mcd18/2.png → 404
+  2026-09-19T17:39:48.787Z mcd18-2/large.png  GET https://images.pokemontcg.io/mcd18/2_hires.png → 404
+  2026-09-19T17:39:48.937Z mcd18-3/small.png  GET https://images.pokemontcg.io/mcd18/3.png → 404
+  2026-09-19T17:39:48.945Z mcd18-3/large.png  GET https://images.pokemontcg.io/mcd18/3_hires.png → 404
+  2026-09-19T17:39:48.995Z mcd18-4/large.png  GET https://images.pokemontcg.io/mcd18/4_hires.png → 404
+  2026-09-19T17:39:49.001Z mcd18-4/small.png  GET https://images.pokemontcg.io/mcd18/4.png → 404
+  2026-09-19T17:39:49.145Z mcd18-5/small.png  GET https://images.pokemontcg.io/mcd18/5.png → 404
+  2026-09-19T17:39:49.164Z mcd18-5/large.png  GET https://images.pokemontcg.io/mcd18/5_hires.png → 404
+  2026-09-19T17:39:49.231Z mcd18-6/small.png  GET https://images.pokemontcg.io/mcd18/6.png → 404
+  2026-09-19T17:39:49.235Z mcd18-6/large.png  GET https://images.pokemontcg.io/mcd18/6_hires.png → 404
+  2026-09-19T17:39:49.385Z mcd18-7/large.png  GET https://images.pokemontcg.io/mcd18/7_hires.png → 404
+  2026-09-19T17:39:49.393Z mcd18-7/small.png  GET https://images.pokemontcg.io/mcd18/7.png → 404
+  2026-09-19T17:39:49.433Z mcd18-8/large.png  GET https://images.pokemontcg.io/mcd18/8_hires.png → 404
+  2026-09-19T17:39:49.447Z mcd18-8/small.png  GET https://images.pokemontcg.io/mcd18/8.png → 404
+  2026-09-19T17:39:49.587Z mcd18-9/small.png  GET https://images.pokemontcg.io/mcd18/9.png → 404
+  2026-09-19T17:39:49.589Z mcd18-9/large.png  GET https://images.pokemontcg.io/mcd18/9_hires.png → 404
+  2026-09-19T17:39:49.643Z mcd18-10/small.png  GET https://images.pokemontcg.io/mcd18/10.png → 404
+  2026-09-19T17:39:49.673Z mcd18-10/large.png  GET https://images.pokemontcg.io/mcd18/10_hires.png → 404
+  2026-09-19T17:39:49.813Z mcd18-11/small.png  GET https://images.pokemontcg.io/mcd18/11.png → 404
+  2026-09-19T17:39:49.834Z mcd18-11/large.png  GET https://images.pokemontcg.io/mcd18/11_hires.png → 404
+  2026-09-19T17:39:49.842Z mcd18-12/small.png  GET https://images.pokemontcg.io/mcd18/12.png → 404
+  2026-09-19T17:39:49.876Z mcd18-12/large.png  GET https://images.pokemontcg.io/mcd18/12_hires.png → 404
+  2026-09-19T18:26:35.510Z svp-102/small.png  GET https://images.pokemontcg.io/svp/102.png → 404
+  2026-09-19T18:26:35.517Z svp-102/large.png  GET https://images.pokemontcg.io/svp/102_hires.png → 404
+  2026-09-19T18:56:49.242Z xyp-XY39/large.png  GET https://images.pokemontcg.io/xyp/XY39_hires.png → 404
+  2026-09-19T18:56:51.862Z xyp-XY46/large.png  GET https://images.pokemontcg.io/xyp/XY46_hires.png → 404
+  2026-09-19T18:57:00.408Z xyp-XY68/large.png  GET https://images.pokemontcg.io/xyp/XY68_hires.png → 404
