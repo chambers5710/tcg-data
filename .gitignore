@@ -1,2 +1,7 @@
 cards/en/v1/
 .idea/
+
+# R2 ingest credentials (copy from .env.example)
+.env
+.env.*
+!.env.example
